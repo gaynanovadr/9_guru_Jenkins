@@ -12,19 +12,9 @@ import org.junit.jupiter.api.Test;
 import static demoga.testData.UserInfo.*;
 import static io.qameta.allure.Allure.step;
 
-public class AuthorizationFormTest {
+public class AuthorizationFormTest extends TestBase {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
-
-    @BeforeAll
-    static void setUp() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.holdBrowserOpen = true;
-        Configuration.browserSize = "1920x1080";
-        Configuration.remote="https://user1:1234@selenoid.autotests.cloud/wd/hub";
-    }
 
     @Test
     @DisplayName("Filling the form with input data")
