@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.1'
+}
+
+group 'guru.qa'
+version '1.0-SNAPSHOT'
+
+def allureVersion = "2.19.0"
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        allureJavaVersion.set(allureVersion)
+        aspectjVersion.set("1.9.5")
+        autoconfigure.set(true)
+        autoconfigureListeners.set(true)
+        aspectjWeaver.set(true)
+
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+                enabled.set(true)
+                autoconfigureListeners.set(true)
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(
+            "com.codeborne:selenide:6.7.4",
+            "org.junit.jupiter:junit-jupiter:5.9.0",
+            "com.github.javafaker:javafaker:1.0.2",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "org.slf4j:slf4j-simple:2.0.3"
+    )
+}
+compileJava {
+    options.encoding = 'UTF-8'
+}
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
+test {
+    systemProperties(System.getProperties())
+}
